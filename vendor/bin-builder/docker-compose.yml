@@ -1,6 +1,14 @@
 version: '3'
 
 services:
+  bin-builder-latest:
+    build:
+      context: ./context
+      dockerfile: ../dockerfiles/Dockerfile.ubuntu
+      args:
+        UBUNTU_VERSION: '18.04'
+    image: downunderctf/bin-builder:latest
+
   bin-builder-ubuntu-18.04:
     build:
       context: ./context

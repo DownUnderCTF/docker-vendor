@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  nsjail-ubuntu-18.04:
+    build:
+      context: ./context/
+      dockerfile: ../dockerfiles/Dockerfile.ubuntu
+      args:
+        UBUNTU_VERSION: "18.04"
+    image: downunderctf/nsjail:ubuntu-18.04

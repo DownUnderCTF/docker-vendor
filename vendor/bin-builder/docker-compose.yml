@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  bin-builder-ubuntu-18.04:
+    build:
+      context: ./context
+      dockerfile: ../dockerfiles/Dockerfile.ubuntu
+      args:
+        UBUNTU_VERSION: '18.04'
+    image: downunderctf/bin-builder:ubuntu-18.04
+  
+  bin-builder-ubuntu-20.04:
+    build:
+      context: ./context
+      dockerfile: ../dockerfiles/Dockerfile.ubuntu
+      args:
+        UBUNTU_VERSION: '20.04'
+    image: downunderctf/bin-builder:ubuntu-20.04
+  
+  bin-builder-debian-10:
+    build:
+      context: ./context
+      dockerfile: ../dockerfiles/Dockerfile.debian
+      args:
+        DEBIAN_VERSION: '10'
+    image: downunderctf/bin-builder:debian-10
+  
+  bin-builder-debian-10-slim:
+    build:
+      context: ./context
+      dockerfile: ../dockerfiles/Dockerfile.debian
+      args:
+        DEBIAN_VERSION: '10-slim'
+    image: downunderctf/bin-builder:debian-10-slim
+  
+  # Don't know why you'd need this but I like completionism
+  bin-builder-alpine:
+    build:
+      context: ./context
+      dockerfile: ../dockerfiles/Dockerfile.alpine
+    image: downunderctf/bin-builder:alpine

@@ -1,0 +1,7 @@
+ARG ALPINE_VERSION=3.13
+
+FROM alpine:$ALPINE_VERSION
+
+RUN apk add --no-cache alpine-sdk=1.0-r0
+
+ENTRYPOINT ["/bin/sh"]

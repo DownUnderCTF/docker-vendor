@@ -1,0 +1,14 @@
+name: lint-on-pr
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - vendor/**
+jobs:
+  run-linter:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Linter
+        run: make lint

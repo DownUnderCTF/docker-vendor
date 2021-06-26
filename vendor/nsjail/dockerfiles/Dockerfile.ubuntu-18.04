@@ -1,4 +1,4 @@
-FROM ubuntu:18.04 as base
+FROM ghcr.io/downunderctf/docker-vendor/bin-builder:ubuntu-18.04 as base
 
 FROM base as build
 ENV DEBIAN_FRONTEND=noninteractive
@@ -6,22 +6,18 @@ RUN apt-get -y update \
  && apt-get install -y --no-install-recommends \
       autoconf \
       bison \
-      ca-certificates \
       flex \
-      gcc \
-      g++ \
       git \
       libprotobuf-dev \
       libnl-route-3-dev \
       libtool \
-      make \
       pkg-config \
       protobuf-compiler 
  
 # hadolint ignore=DL3003,DL3059
 RUN git clone https://github.com/google/nsjail.git /nsjail && cd /nsjail && make
 
-FROM base as dist
+FROM ubuntu:18.04 as dist
 RUN dpkg --add-architecture i386 \
  && apt-get update \
  && apt-get install -y --no-install-recommends \

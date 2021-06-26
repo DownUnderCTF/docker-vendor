@@ -1,6 +1,7 @@
 # bin-builder
 
-Contains common tools required for building binary challenges. Consider using this as part of a multistage build.
+Contains common tools required for building binary challenges. Consider using
+this as part of a multistage build.
 
 e.g.
 ```dockerfile

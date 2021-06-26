@@ -5,10 +5,23 @@ on:
       - master
     paths:
       - vendor/**
+env:
+  REGISTRY: ghcr.io
+
 jobs:
-  build-all:
+  build-changed:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - name: docker-compose build all
-        run: ./scripts/build-all.sh
+        with:
+          fetch-depth: 2
+      - name: docker login
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: docker-compose build
+        run: ./scripts/build-changed.sh
+      - name: docker-compose push
+        run: ./scripts/push-changed.sh

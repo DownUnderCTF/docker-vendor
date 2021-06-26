@@ -5,7 +5,5 @@ services:
     build:
       context: ./context/
       dockerfile: ../dockerfiles/Dockerfile.ubuntu-18.04
-      args:
-        UBUNTU_VERSION: "18.04"
     image: ${CONTAINER_PREFIX}/nsjail:ubuntu-18.04
 

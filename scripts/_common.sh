@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export VENDOR_DIR=./vendor
+export CONTAINER_PREFIX="ghcr.io/downunderctf/docker-vendor"
 
 function get_all_compose_files {
     # Returns all docker-compose files separated with '-f's, ready for use with docker-compose

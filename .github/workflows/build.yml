@@ -1,0 +1,14 @@
+name: build
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - vendor/**
+jobs:
+  build-all:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: docker-compose build all
+        run: ./scripts/build-all.sh

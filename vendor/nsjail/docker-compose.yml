@@ -7,4 +7,5 @@ services:
       dockerfile: ../dockerfiles/Dockerfile.ubuntu-18.04
       args:
         UBUNTU_VERSION: "18.04"
-    image: ghcr.io/downunderctf/docker-vendor/nsjail:ubuntu-18.04
+    image: ${CONTAINER_PREFIX}/nsjail:ubuntu-18.04
+

@@ -1,13 +1,13 @@
 version: '3'
 
 services:
-  nsjail-latest:
+  nsjail-ubuntu-20.04:
     build:
       context: ./context/
       dockerfile: ../dockerfiles/Dockerfile.ubuntu
       args:
-        UBUNTU_VERSION: "18.04"
-    image: downunderctf/nsjail:latest
+        UBUNTU_VERSION: "20.04"
+    image: ghcr.io/downunderctf/docker-vendor/nsjail:ubuntu-20.04
 
   nsjail-ubuntu-18.04:
     build:
@@ -15,4 +15,4 @@ services:
       dockerfile: ../dockerfiles/Dockerfile.ubuntu
       args:
         UBUNTU_VERSION: "18.04"
-    image: downunderctf/nsjail:ubuntu-18.04
+    image: ghcr.io/downunderctf/docker-vendor/nsjail:ubuntu-18.04

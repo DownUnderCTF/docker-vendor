@@ -6,33 +6,43 @@ FROM base as build
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y update \
  && apt-get install -y --no-install-recommends \
-      autoconf=2.69-* \
-      bison=2:3.0.4.dfsg-* \
-      flex=2.6.4-* \
-      gcc=4:7.4.0-* \
-      g++=7.5.0-* \
-      git=1:2.17.1-* \
-      libprotobuf-dev=3.0.0-* \
-      libnl-route-3-dev=3.2.29-* \
-      libtool=2.4.6-* \
-      make=4.1-* \
-      pkg-config=0.29.1-* \
-      protobuf-compiler=3.0.0-*
+      autoconf \
+      bison \
+      ca-certificates \
+      flex \
+      gcc \
+      g++ \
+      git \
+      libprotobuf-dev \
+      libnl-route-3-dev \
+      libtool \
+      make \
+      pkg-config \
+      protobuf-compiler 
  
 # hadolint ignore=DL3003,DL3059
 RUN git clone https://github.com/google/nsjail.git /nsjail && cd /nsjail && make
 
 FROM base as dist
-RUN apt-get update \
+RUN dpkg --add-architecture i386 \
+ && apt-get update \
  && apt-get install -y --no-install-recommends \
-     libprotobuf10=3.0.0-* \
-     libnl-route-3-200=3.2.29-* \
+     libprotobuf10 \
+     libnl-route-3-200 \
+     libc6:i386 \
+     libstdc++6:i386 \
  && rm -rf /var/lib/apt/lists/*
 
 COPY --from=build /nsjail/nsjail /usr/bin/nsjail
-RUN useradd -r -u 1000 ctf
+RUN useradd -r -m -u 1000 ctf
 
-COPY nsjail-run.sh /home/ctf/
-RUN chmod +x /home/ctf/nsjail-run.sh
+COPY docker-entrypoint.sh nsjail-launcher.sh /docker-init/
+RUN chmod +x /docker-init/*
 
-ENTRYPOINT ["/home/ctf/nsjail-run.sh"]
+ENTRYPOINT ["/docker-init/docker-entrypoint.sh"]
+CMD ["/docker-init/nsjail-launcher.sh"]
+
+# copy in example stuff
+COPY nsjail.cfg /home/ctf
+COPY chal /home/ctf/chal/
+

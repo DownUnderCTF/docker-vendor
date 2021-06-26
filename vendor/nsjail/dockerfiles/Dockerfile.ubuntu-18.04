@@ -1,6 +1,4 @@
-ARG UBUNTU_VERSION=18.04
-
-FROM ubuntu:$UBUNTU_VERSION as base
+FROM ubuntu:18.04 as base
 
 FROM base as build
 ENV DEBIAN_FRONTEND=noninteractive

@@ -25,14 +25,6 @@ services:
         DEBIAN_VERSION: '10'
     image: ${CONTAINER_PREFIX}/bin-builder:debian-10
   
-  bin-builder-debian-10-slim:
-    build:
-      context: ./context
-      dockerfile: ../dockerfiles/Dockerfile.debian
-      args:
-        DEBIAN_VERSION: '10-slim'
-    image: ${CONTAINER_PREFIX}/bin-builder:debian-10-slim
-  
   # Don't know why you'd need this but I like completionism
   bin-builder-alpine:
     build:

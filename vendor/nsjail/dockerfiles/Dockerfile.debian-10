@@ -1,4 +1,6 @@
-FROM ghcr.io/downunderctf/docker-vendor/bin-builder:ubuntu-18.04 as base
+ARG DEBIAN_VERSION=10
+
+FROM ghcr.io/downunderctf/docker-vendor/bin-builder:debian-$DEBIAN_VERSION as base
 
 FROM base as build
 ENV DEBIAN_FRONTEND=noninteractive
@@ -17,11 +19,11 @@ RUN apt-get update \
 # hadolint ignore=DL3003,DL3059
 RUN git clone https://github.com/google/nsjail.git /nsjail && cd /nsjail && make
 
-FROM ubuntu:18.04 as dist
+FROM debian:$DEBIAN_VERSION-slim as dist
 RUN dpkg --add-architecture i386 \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
-     libprotobuf10 \
+     libprotobuf-lite17 \
      libnl-route-3-200 \
      libc6:i386 \
      libstdc++6:i386 \

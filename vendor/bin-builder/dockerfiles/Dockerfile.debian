@@ -1,6 +1,6 @@
 ARG DEBIAN_VERSION
 
-FROM debian:$DEBIAN_VERSION
+FROM debian:$DEBIAN_VERSION-slim
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends build-essential ca-certificates gcc-multilib g++-multilib \

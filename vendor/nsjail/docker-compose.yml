@@ -6,6 +6,7 @@ services:
       context: ./context/
       dockerfile: ../dockerfiles/Dockerfile.ubuntu-18.04
     image: ${CONTAINER_PREFIX}/nsjail:ubuntu-18.04
+
   nsjail-debian-10:
     build:
       context: ./context/

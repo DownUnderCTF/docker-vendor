@@ -8,16 +8,6 @@ alternative script can be provided using ENV.
 
 At the end of your Dockerfile, expose the appropriate port using `EXPOSE port_number/TCP`.
 
-## Options
-
-Default options are listed below.
-
-```sh
-PORT=1337               # Listening port
-MAX_CONNS_PER_IP=16     # Maximum number of connections per IP address.
-MAX_MEMORY=67108864     # Maximum memory that processes can use.
-MAX_PIDS=16             # Maximum number of processes.
-TIME_LIMIT=60           # Timeout before connection is closed.
-RLIMIT_CPU=10           # Maximum amount of CPU time permitted.
-NSJAIL_USER_FLAGS=""    # Any other user specified flags to pass to nsjail
-```
+## Configuration
+There is default configuration inside context/nsjail.cfg. Just replace the file using `COPY` when
+building your image if you need to change any of the values.

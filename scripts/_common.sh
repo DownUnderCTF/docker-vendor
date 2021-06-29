@@ -1,12 +1,13 @@
 #!/bin/bash
 
-export VENDOR_DIR=./vendor
+export VENDOR_DIR="vendor/"
 export PROJECT_PREFIX="vendor/"
 export CONTAINER_PREFIX="ghcr.io/downunderctf/docker-vendor"
 
 if [ -z "$GITHUB_SHA" ]; then
-    GITHUB_SHA="HEAD"
+    export GITHUB_SHA=`git rev-parse HEAD`
 fi
+export REVISION=$GITHUB_SHA
 
 function get_all_compose_files {
     # Returns all docker-compose files separated with '-f's, ready for use with docker-compose

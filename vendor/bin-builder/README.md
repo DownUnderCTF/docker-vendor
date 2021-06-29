@@ -5,14 +5,14 @@ this as part of a multistage build.
 
 e.g.
 ```dockerfile
-FROM downunderctf/bin-builder as build
+FROM ghcr.io/downunderctf/docker-vendor/bin-builder:ubuntu-18.04 as build
 
 WORKDIR /build
 COPY mysource.c .
 RUN gcc -o chal mysource.c
 
 
-FROM downunderctf/nsjail
+FROM ghcr.io/downunderctf/docker-vendor/nsjail:ubuntu-18.04
 
 COPY --from=build /build/chal .
 

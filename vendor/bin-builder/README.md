@@ -1,7 +1,7 @@
 # bin-builder
 
 Contains common tools required for building binary challenges. Consider using
-this as part of a multistage build.
+this as part of a multi-stage build.
 
 e.g.
 ```dockerfile
@@ -14,7 +14,7 @@ RUN gcc -o chal mysource.c
 
 FROM ghcr.io/downunderctf/docker-vendor/nsjail:ubuntu-18.04
 
-COPY --from=build /build/chal .
+COPY --from=build /build/chal /home/ctf/chal/pwn
 
 # ...
 ```

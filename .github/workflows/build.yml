@@ -30,8 +30,16 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: docker-compose build
-        run: ./scripts/build-changed.sh
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
 
-      - name: docker-compose push
-        run: ./scripts/push-changed.sh
+      - name: docker buildx build and push
+        run: ./scripts/build-and-push-changed.sh
+      
+      - name: move and delete old cache
+        run: rm -rf /tmp/.buildx-cache && mv /tmp/.buildx-cache-new /tmp/.buildx-cache

@@ -23,7 +23,7 @@ FROM debian:$DEBIAN_VERSION-slim as dist
 RUN dpkg --add-architecture i386 \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
-     libprotobuf-lite17 \
+     libprotobuf17 \
      libnl-route-3-200 \
      libc6:i386 \
      libstdc++6:i386 \

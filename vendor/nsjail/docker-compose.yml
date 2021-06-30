@@ -12,3 +12,4 @@ services:
       context: ./context/
       dockerfile: ../dockerfiles/Dockerfile.debian-10
     image: ${CONTAINER_PREFIX}/nsjail:debian-10
+

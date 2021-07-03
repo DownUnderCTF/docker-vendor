@@ -32,7 +32,7 @@ RUN dpkg --add-architecture i386 \
 COPY --from=build /nsjail/nsjail /usr/bin/nsjail
 RUN useradd -r -m -u 1000 ctf
 
-COPY docker-entrypoint.sh nsjail-launcher.sh /docker-init/
+COPY docker-entrypoint.sh nsjail-launcher.sh nsjail-user.sh /docker-init/
 RUN chmod +x /docker-init/*
 
 ENTRYPOINT ["/docker-init/docker-entrypoint.sh"]

@@ -2,8 +2,6 @@
 
 # this needs to run after /docker-init/docker-entrypoint.sh
 
-CONFIG_FILE="/home/ctf/nsjail.cfg"
-
 if [ -f "/sys/fs/cgroup/cgroup.controllers" ]; then
 	# we are using cgroupv2
 	echo "Running using cgroupv2"
@@ -13,12 +11,7 @@ if [ -f "/sys/fs/cgroup/cgroup.controllers" ]; then
 
 	# delegate controllers
 	echo '+cpu +memory +pids' > /sys/fs/cgroup/nsjail/cgroup.subtree_control
-	echo "$$" > /sys/fs/cgroup/nsjail/init/cgroup.procs
-	
-	# sneaky write in cgroupv2 config
-	echo '' >> $CONFIG_FILE # in case line doesn't end with newline
-	echo 'use_cgroupv2: true' >> $CONFIG_FILE
-	echo 'cgroupv2_mount: "/sys/fs/cgroup/nsjail"' >> $CONFIG_FILE
+	echo "$$" > /sys/fs/cgroup/nsjail/init/cgroup.procs	
 else
 	# we are using cgroupv1
 	echo "Running using legacy cgroup"
@@ -26,5 +19,4 @@ else
 	chown -R ctf:ctf /sys/fs/cgroup/{cpu,memory,pids}/NSJAIL
 fi
 
-
-exec runuser -u ctf -- /usr/bin/nsjail --config $CONFIG_FILE
+exec runuser -u ctf -- /docker-init/nsjail-user.sh

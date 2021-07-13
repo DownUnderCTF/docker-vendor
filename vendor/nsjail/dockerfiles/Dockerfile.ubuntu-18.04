@@ -21,6 +21,7 @@ FROM ubuntu:18.04 as dist
 RUN dpkg --add-architecture i386 \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
+      gettext \
      libprotobuf10 \
      libnl-route-3-200 \
      libc6:i386 \

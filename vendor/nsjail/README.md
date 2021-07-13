@@ -9,5 +9,18 @@ alternative script can be provided using ENV.
 At the end of your Dockerfile, expose the appropriate port using `EXPOSE port_number/TCP`.
 
 ## Configuration
+Default options are listed below.
+
+```sh
+MOUNT_PROC=false        # Whether to mount proc in the child container
+PORT=1337               # Listening port
+MAX_CONNS_PER_IP=16      # Maximum number of connections per IP address. 0 is unlimited.
+MAX_MEMORY=67108864     # Maximum memory that processes can use.
+MAX_PIDS=16             # Maximum number of processes.
+TIME_LIMIT=60           # Timeout before connection is closed.
+CPU_SHARES_MS=50        # Maximum amount of CPU time permitted in milliseconds per second.
+```
+
 There is default configuration inside context/nsjail.cfg. Just replace the file using `COPY` when
-building your image if you need to change any of the values.
+building your image if you need to change more than what is provided through the environment
+variables.

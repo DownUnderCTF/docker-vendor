@@ -1,4 +1,4 @@
-ARG UBUNTU_VERSION="18.04"
+ARG UBUNTU_VERSION="21.04"
 
 FROM ghcr.io/downunderctf/docker-vendor/bin-builder:ubuntu-$UBUNTU_VERSION as base
 
@@ -24,10 +24,10 @@ RUN dpkg --add-architecture i386 \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
      gettext \
-     python3.8 \
-     python3.8-venv \
+     python3 \
+     python3-pip \
      nano \
-     libprotobuf10 \
+     libprotobuf23 \
      libnl-route-3-200 \
      libc6:i386 \
      libstdc++6:i386 \

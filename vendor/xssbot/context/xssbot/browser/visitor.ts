@@ -19,12 +19,18 @@ async function safeClosePage(page: puppeteer.Page) {
 
 async function browserRequestValidator(request: puppeteer.HTTPRequest) {
     logger.info(`Intercepted ${request.method()} ${request.url()}`);
-    if (!(await checkRequest(request))) {
-        logger.info(`Rejecting ${request.method()} ${request.url()}`);
-        await request.abort();
-    } else {
-        await request.continue();
+    const [status, errMsg] = await checkRequest(request);
+    if (!status) {
+        logger.info(
+            {
+                reason: errMsg,
+            },
+            `Rejecting ${request.method()} ${request.url()}`
+        );
+        return;
     }
+
+    await request.continue();
 }
 
 export default class BotVisitor {

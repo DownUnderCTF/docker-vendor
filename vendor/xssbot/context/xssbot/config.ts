@@ -12,7 +12,7 @@ export const HEALTHZ_URL = process.env.HEALTHZ_URL ?? "/healthz";
 /** Deep status url, defaults to /statusz. Disable if set to 'DISABLE' */
 export const STATUSZ_URL = process.env.STATUSZ_URL ?? "/statusz";
 
-// Auth Methods
+// Outbound Auth
 /** Outbound auth strategy to use, defaults to none. Supports: cookiejar, http-get, none */
 export const OUTBOUND_AUTH_METHOD = process.env.OUTBOUND_AUTH_METHOD ?? "none";
 /** Path to the cookiejar file to use if the auth method is 'cookiejar' */
@@ -33,6 +33,10 @@ export const TIMEOUT_NETWORK_IDLE = +(process.env.TIMEOUT_NETWORK_IDLE ?? 5000);
 export const INBOUND_SSRF_PROT = (process.env.INBOUND_SSRF_PROT ?? "1") in ["1", "true"];
 /** Bearer token that should be sent in the request, disabled by default */
 export const INBOUND_BEARER = process.env.INBOUND_BEARER ?? null;
+/** Flag that allows requests to internal addresses. */
+export const ALLOW_INTERNAL_ADDRESSES = process.env.ALLOW_INTERNAL_ADDRESS === "unsafe-allow-all-internal-addresses";
+/** Flag that allows requests to additional protocols. */
+export const ALLOW_ALL_PROTOCOLS = process.env.ALLOW_ALL_PROTOCOLS === "unsafe-allow-all-protocols";
 
 // Misc
 /** Name of the service, used to make sure we don't loop requests back to ourselves. */

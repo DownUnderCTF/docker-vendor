@@ -5,10 +5,17 @@
     "main": "src/index.ts",
     "author": "todo",
     "license": "MIT",
+    "scripts": {
+        "lint:check": "prettier -c ./xssbot && eslint -c ./xssbot/*",
+        "lint": "prettier --write ./xssbot && eslint --fix ./xssbot/*",
+        "dev": "nodemon xssbot/main.ts"
+    },
     "devDependencies": {
+        "@types/ajv": "^1.0.0",
         "@types/koa": "^2.13.4",
-        "@types/koa__router": "^8.0.7",
+        "@types/koa-bodyparser": "^4.3.3",
         "@types/koa-logger": "^3.1.1",
+        "@types/koa__router": "^8.0.7",
         "@types/node": "^16.7.10",
         "@types/puppeteer": "^5.4.4",
         "@typescript-eslint/eslint-plugin": "^4.30.0",
@@ -16,6 +23,7 @@
         "eslint": "^7.32.0",
         "eslint-config-airbnb-base": "^14.2.1",
         "eslint-config-airbnb-typescript": "^14.0.0",
+        "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-import": "^2.24.2",
         "nodemon": "^2.0.12",
         "prettier": "^2.3.2",
@@ -24,8 +32,10 @@
     "dependencies": {
         "@koa/router": "^10.1.1",
         "@types/uuid": "^8.3.1",
+        "ajv": "^8.6.2",
         "bee-queue": "^1.4.0",
         "koa": "^2.13.1",
+        "koa-bodyparser": "^4.3.0",
         "koa-logger": "^3.2.1",
         "puppeteer": "^10.2.0"
     }

@@ -13,10 +13,12 @@ export const HEALTHZ_URL = process.env.HEALTHZ_URL ?? "/healthz";
 export const STATUSZ_URL = process.env.STATUSZ_URL ?? "/statusz";
 
 // Auth Methods
-/** Outbound auth strategy to use, defaults to none. Supports: cookiejar, none */
+/** Outbound auth strategy to use, defaults to none. Supports: cookiejar, http-get, none */
 export const OUTBOUND_AUTH_METHOD = process.env.OUTBOUND_AUTH_METHOD ?? "none";
 /** Path to the cookiejar file to use if the auth method is 'cookiejar' */
 export const OUTBOUND_AUTH_COOKIEJAR = process.env.OUTBOUND_AUTH_COOKIEJAR ?? "/var/marvin/auth/cookiejar";
+/** Path to GET if the auth method is http-get, defaults to /marvin */
+export const OUTBOUND_AUTH_HTTP_GET_URL = process.env.OUTBOUND_AUTH_HTTP_GET_URL ?? "/marvin";
 
 // Resources Limits
 /** If true allows each request to set its own timeout limits */

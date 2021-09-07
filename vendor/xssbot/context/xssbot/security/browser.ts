@@ -14,6 +14,12 @@ async function validateURL(req: puppeteer.HTTPRequest): Promise<boolean> {
     return true;
 }
 
+async function noInternalRedirect(req: puppeteer.HTTPRequest): Promise<boolean> {
+    const url = req.url();
+
+    return false;
+}
+
 export default async function checkRequest(request: puppeteer.HTTPRequest) {
     const checks: RequestChecker[] = [validateURL];
     // eslint-disable-next-line no-restricted-syntax

@@ -15,7 +15,8 @@ _This was written in 2 days so :shrug:. Refactor next year or sth._
 
 ## Usage
 
--
+-   We handle outbound auth through a cookiejar. The user should mount a cookiejar file which will be applied for every request.
+-   We handle outbound auth through a http get request. The user should specify what address to get.
 
 ## Security
 

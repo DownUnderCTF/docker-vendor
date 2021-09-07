@@ -1,8 +1,9 @@
 import Koa from "koa";
-import KoaLogger from "koa-logger";
 import KoaRouter from "@koa/router";
 import KoaBodyParser from "koa-bodyparser";
 
+import bunyan from "bunyan";
+import { v4 as uuidv4 } from "uuid";
 import * as config from "./config";
 import { noLoopBack, requireBearerToken, requireSSRFProtection } from "./security/api";
 import { getQueueStatus, submitVisitRequest } from "./visitTask";
@@ -11,8 +12,28 @@ import { resolveResourceLimits } from "./security/resources";
 
 const app = new Koa();
 const router = new KoaRouter();
+const accessLogger = bunyan.createLogger({ name: "ApiAccess" });
 
-app.use(KoaLogger());
+app.use(async (ctx, next) => {
+    const requestId = uuidv4();
+    ctx.set("X-Request-Id", ctx.get("X-Request-Id") ?? requestId);
+    accessLogger.info({
+        type: "request",
+        method: ctx.method,
+        path: ctx.path,
+        requestId,
+    });
+
+    const start = performance.now();
+    await next();
+
+    accessLogger.info({
+        type: "response",
+        requestId,
+        status: ctx.status,
+        elapsed: performance.now() - start,
+    });
+});
 // Note: this setup requires users to explicity send Content-Type: application/json
 app.use(
     KoaBodyParser({

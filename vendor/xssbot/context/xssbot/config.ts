@@ -12,6 +12,12 @@ export const HEALTHZ_URL = process.env.HEALTHZ_URL ?? "/healthz";
 /** Deep status url, defaults to /statusz. Disable if set to 'DISABLE' */
 export const STATUSZ_URL = process.env.STATUSZ_URL ?? "/statusz";
 
+// Auth Methods
+/** Outbound auth strategy to use, defaults to none. Supports: cookiejar, none */
+export const OUTBOUND_AUTH_METHOD = process.env.OUTBOUND_AUTH_METHOD ?? "none";
+/** Path to the cookiejar file to use if the auth method is 'cookiejar' */
+export const OUTBOUND_AUTH_COOKIEJAR = process.env.OUTBOUND_AUTH_COOKIEJAR ?? "/var/marvin/auth/cookiejar";
+
 // Resources Limits
 /** If true allows each request to set its own timeout limits */
 export const PER_REQ_LIMITS = (process.env.PER_REQ_LIMITS ?? "0") in ["1", "true"];
@@ -25,8 +31,6 @@ export const TIMEOUT_NETWORK_IDLE = +(process.env.TIMEOUT_NETWORK_IDLE ?? 5000);
 export const INBOUND_SSRF_PROT = (process.env.INBOUND_SSRF_PROT ?? "1") in ["1", "true"];
 /** Bearer token that should be sent in the request, disabled by default */
 export const INBOUND_BEARER = process.env.INBOUND_BEARER ?? null;
-/** Ratelimit (per second) for visit requests, defaults to no rate limit */
-export const INBOUND_RATELIMIT = +(process.env.INBOUND_RATELIMIT ?? -1);
 
 // Misc
 /** Name of the service, used to make sure we don't loop requests back to ourselves. */

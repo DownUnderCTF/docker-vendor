@@ -3,6 +3,7 @@ import BotVisitor from "./visitor";
 import * as config from "../config";
 import { VisitResourceLimits } from "../types";
 import { defaultResourceLimits } from "../security/resources";
+import logger from "./logger";
 
 type BrowserOptions = {
     browser: {
@@ -26,6 +27,7 @@ export class BotBrowser {
             headless: true,
             executablePath: this.opts.browser.executablePath,
         });
+        logger.info(`Initiated browser using ${this.opts.browser.executablePath}`);
     }
 
     getVisitor(resourceLimits?: VisitResourceLimits) {

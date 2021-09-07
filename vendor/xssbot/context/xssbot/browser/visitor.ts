@@ -1,11 +1,11 @@
 import puppeteer from "puppeteer";
-import bunyan from "bunyan";
 import { VisitResourceLimits } from "../types";
 import * as config from "../config";
 import checkRequest from "../security/browser";
+import applyAuth from "./auth";
+import logger from "./logger";
 
 type PageVisitor = (page: puppeteer.Page) => Promise<void>;
-const logger = bunyan.createLogger({ name: "Visitor" });
 
 async function safeClosePage(page: puppeteer.Page) {
     try {
@@ -68,6 +68,7 @@ export default class BotVisitor {
 
     public async visit(url: string) {
         this.safeVisit(async (page) => {
+            await applyAuth(page);
             await page.goto(url, {
                 waitUntil: "networkidle0",
                 timeout: this.resourceLimits.timeouts.networkIdle,

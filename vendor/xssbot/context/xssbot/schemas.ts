@@ -1,4 +1,5 @@
-import Ajv, { JTDDataType } from "ajv/dist/jtd";
+import Ajv from "ajv/dist/jtd";
+import { VisitRequest } from "./types";
 
 const ajv = new Ajv();
 
@@ -7,17 +8,20 @@ const VisitRequestSchema = {
         url: { type: "string" },
     },
     optionalProperties: {
-        timeouts: {
-            properties: {
-                total: { type: "int32", nullable: true },
-                networkIdle: { type: "int32", nullable: true },
+        resouceLimits: {
+            optionalProperties: {
+                timeouts: {
+                    optionalProperties: {
+                        total: { type: "int32" },
+                        networkIdle: { type: "int32" },
+                    },
+                },
             },
-            nullable: true,
         },
     },
 };
 
-export type VisitRequest = JTDDataType<typeof VisitRequestSchema>;
+// eslint-disable-next-line import/prefer-default-export
 export function getVisitRequestValidator() {
     return ajv.compile<VisitRequest>(VisitRequestSchema);
 }

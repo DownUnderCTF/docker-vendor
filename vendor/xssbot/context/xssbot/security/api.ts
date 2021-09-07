@@ -1,4 +1,5 @@
 import { Context } from "koa";
+import * as config from "../config";
 
 export function requireBearerToken(ctx: Context, expectedToken: string): boolean {
     const bearer = ctx.headers.authorization?.split(" ")[1];
@@ -24,5 +25,15 @@ export function requireSSRFProtection(ctx: Context) {
         ctx.status = 403;
         return false;
     }
+    return true;
+}
+
+export function noLoopBack(ctx: Context) {
+    if (ctx.get("X-Powered-By") === config.SERVICE_NAME) {
+        ctx.body = "";
+        ctx.status = 403;
+        return false;
+    }
+
     return true;
 }

@@ -1,10 +1,10 @@
 import BeeQueue from "bee-queue";
+import bunyan from "bunyan";
 import { browser } from "./browser/browser";
 import * as config from "./config";
+import { VisitRequest } from "./types";
 
-export type VisitRequest = {
-    url: string;
-};
+const logger = bunyan.createLogger({ name: "VisitTask" });
 
 const visitQueue = new BeeQueue("xssbot-visit", {
     redis: { host: config.REDIS_HOST },
@@ -21,18 +21,18 @@ const localQueueStats = {
 };
 
 visitQueue.on("ready", () => {
-    console.log("xssbot task queue is now ready to handle tasks");
+    logger.info("xssbot task queue is now ready to handle tasks");
 });
 visitQueue.on("error", (err) => {
-    console.error(`A queue error occurred: ${err}`);
+    logger.error(`A queue error occurred: ${err}`);
 });
 visitQueue.on("succeeded", (job) => {
     localQueueStats.succeeded += 1;
-    console.info(`Job ${job.id} succeeded`);
+    logger.info(`Job ${job.id} succeeded`);
 });
 visitQueue.on("failed", (job, err) => {
     localQueueStats.failed += 1;
-    console.info(`Job ${job.id} failed with error ${err}`);
+    logger.warn(`Job ${job.id} failed with error ${err}`);
 });
 
 visitQueue.process(async (job) => {

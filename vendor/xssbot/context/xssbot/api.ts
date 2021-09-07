@@ -4,9 +4,10 @@ import KoaRouter from "@koa/router";
 import KoaBodyParser from "koa-bodyparser";
 
 import * as config from "./config";
-import { requireBearerToken, requireSSRFProtection } from "./security/api";
+import { noLoopBack, requireBearerToken, requireSSRFProtection } from "./security/api";
 import { getQueueStatus, submitVisitRequest } from "./visitTask";
 import { getVisitRequestValidator } from "./schemas";
+import { resolveResourceLimits } from "./security/resources";
 
 const app = new Koa();
 const router = new KoaRouter();
@@ -27,7 +28,6 @@ if (config.HEALTHZ_URL !== "DISABLE") {
     });
 }
 if (config.STATUSZ_URL !== "DISABLE") {
-    // TODO
     router.get(config.STATUSZ_URL, async (ctx) => {
         ctx.body = {
             queues: {
@@ -37,11 +37,15 @@ if (config.STATUSZ_URL !== "DISABLE") {
     });
 }
 
-router.post("/visit", (ctx) => {
-    if (config.VISIT_SSRF_PROT && !requireSSRFProtection(ctx)) {
+router.post("/visit", async (ctx) => {
+    if (!noLoopBack(ctx)) {
         return;
     }
-    if (config.VISIT_TOKEN !== null && !requireBearerToken(ctx, config.VISIT_TOKEN)) {
+
+    if (config.INBOUND_SSRF_PROT && !requireSSRFProtection(ctx)) {
+        return;
+    }
+    if (config.INBOUND_BEARER !== null && !requireBearerToken(ctx, config.INBOUND_BEARER)) {
         return;
     }
 
@@ -54,15 +58,23 @@ router.post("/visit", (ctx) => {
     const req = ctx.request.body;
     const validator = getVisitRequestValidator();
     if (!validator(req)) {
-        // TODO: respond if debug mode
-        console.log(validator.errors);
-
         ctx.status = 400;
-        ctx.body = "invalid request";
+        ctx.body = process.env.NODE_ENV === "development" ? validator.errors : "invalid request";
+        return;
+    }
+    if (!config.PER_REQ_LIMITS && req.resourceLimits) {
+        ctx.status = 400;
+        ctx.body =
+            process.env.NODE_ENV === "development"
+                ? "found timeout field when PER_REQ_LIMITS was not set"
+                : "invalid request";
         return;
     }
 
-    submitVisitRequest({ url: <string>req.url });
+    await submitVisitRequest({
+        url: <string>req.url,
+        ...(req.resourceLimits ? { resourceLimits: resolveResourceLimits(req.resourceLimits) } : {}),
+    });
 
     ctx.status = 202;
     ctx.body = "";

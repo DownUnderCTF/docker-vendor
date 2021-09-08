@@ -33,7 +33,7 @@ async function noInternalAccess(req: puppeteer.HTTPRequest) {
     }
 
     const ip = ipaddress.parse(ipAddr.address);
-    if (["loopback", "linklocal", "private"].includes(ip.range())) {
+    if (["loopback", "linklocal"].includes(ip.range())) {
         throw new RequestSecError("Invalid IP Range");
     }
 }

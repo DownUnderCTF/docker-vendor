@@ -5,6 +5,7 @@ services:
     image: ghcr.io/downunderctf/docker-vendor/xssbot:chrome
     privileged: true
     environment:
+      NODE_ENVIRONMENT: development  # Remove me for prod
       OUTBOUND_AUTH_METHOD: http-get
       OUTBOUND_AUTH_HTTP_GET_URL: http://webapp:8000/admin?token=admintoken
   webapp:

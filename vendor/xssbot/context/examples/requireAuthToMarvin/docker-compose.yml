@@ -5,6 +5,7 @@ services:
     image: ghcr.io/downunderctf/docker-vendor/xssbot:chrome
     privileged: true
     environment:
+      NODE_ENVIRONMENT: development  # Remove me for prod
       INBOUND_BEARER: mybearertoken
   webapp:
     build: .

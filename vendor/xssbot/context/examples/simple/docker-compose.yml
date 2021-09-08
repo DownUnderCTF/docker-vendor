@@ -4,6 +4,8 @@ services:
   marvin:
     image: ghcr.io/downunderctf/docker-vendor/xssbot:chrome
     privileged: true
+    environment:
+      NODE_ENVIRONMENT: development  # Remove me fro prod
   webapp:
     build: .
     ports:

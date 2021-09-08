@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  marvin:
+    image: ghcr.io/downunderctf/docker-vendor/xssbot:chrome
+    privileged: true
+  webapp:
+    build: .
+    ports:
+      - 8000:8000

@@ -20,9 +20,15 @@ function getHttpGetHandler(): AuthHandler {
 
 function getCookieJarHandler(): AuthHandler {
     try {
-        const cookies: { name: string; value: string }[] = JSON.parse(
+        const cookies: { name: string; value: string, domain: string }[] = JSON.parse(
             fs.readFileSync(config.OUTBOUND_AUTH_COOKIEJAR, "utf-8")
         );
+
+        cookies.forEach(cookie => {
+            if(!cookie.domain) {
+                throw new Error('Cookie must have a domain');
+            }
+        })
 
         return async (page: puppeteer.Page) => {
             cookies.forEach((cookie) => page.setCookie(cookie));

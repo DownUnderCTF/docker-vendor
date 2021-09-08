@@ -59,10 +59,12 @@ Types for each cookie can be found here: https://chromedevtools.github.io/devtoo
 ```json
 [
   {
+    "domain": "domainforcookie.com",
     "name": "minimalcookie",
     "value": "val",
   },
   {
+    "domain": "domainforcookie.com",
     "name": "xss-cookie",
     "value": "you can get me from js",
     "httponly": false
@@ -169,8 +171,8 @@ requests.post('...', json=..., headers={
 #### ALLOW_INTERNAL_ADDRESSES
 _Default_: `false`
 
-Allows request to be made to loopback and link-local addresses, typically this is not allowed. Authors are _strongly_
-encouraged to route non-state effecting requests over the public internet and rely on auth if possible. Set to `unsafe-allow-all-internal-addresses` to enable.
+Allows request to be made to loopback and link-local addresses, typically this is not allowed. Private addresses are not effected by this.
+Set to `unsafe-allow-all-internal-addresses` to enable.
 
 #### ALLOW_ALL_PROTOCOLS
 _Default_: `false`
@@ -182,6 +184,9 @@ _Default_: `ductf/marvin`
 
 This will be the value of the `X-Powered-By` header sent with every request. Authors may use this header to make _aesthetic_ changes to their challenges if the request comes from Marvin. **This header is not secure and should not be trusted**.
 
+## Gotchas
+
+ - Don't name your service `app` if you are going to visit it through the internal network. Chrome incorrectly attempts to send https traffic to the service.
 
 ## Credits
 

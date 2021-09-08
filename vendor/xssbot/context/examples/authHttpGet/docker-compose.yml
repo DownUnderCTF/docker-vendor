@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  marvin:
+    image: ghcr.io/downunderctf/docker-vendor/xssbot:chrome
+    privileged: true
+    environment:
+      OUTBOUND_AUTH_METHOD: http-get
+      OUTBOUND_AUTH_HTTP_GET_URL: http://webapp:8000/admin?token=admintoken
+  webapp:
+    build: .
+    ports:
+      - 8000:8000

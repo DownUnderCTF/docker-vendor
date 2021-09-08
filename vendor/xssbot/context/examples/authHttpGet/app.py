@@ -21,7 +21,7 @@ def admin():
 
 @app.route('/visit')
 def visit():
-    requests.post('http://marvin:8000/visit', json={
+    requests.post('http://marvin/visit', json={
         'url': 'http://webapp:8000/'
     }, headers={
         'x-ssrf-protection': '1'

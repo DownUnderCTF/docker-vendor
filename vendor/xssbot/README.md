@@ -12,6 +12,7 @@ Include the following in your `docker-compose.yml`. By default Marvin listens on
 services:
   xssbot:
     image: ghcr.io/downunderctf/docker-vendor/xssbot:chrome
+    privileged: true
     # Useful for development
     environment:
      - NODE_ENVIRONMENT: development

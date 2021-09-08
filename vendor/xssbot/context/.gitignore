@@ -178,3 +178,4 @@ tags
 # End of https://www.toptal.com/developers/gitignore/api/yarn,node,vim,visualstudiocode
 build/
 mprof_*
+venv/

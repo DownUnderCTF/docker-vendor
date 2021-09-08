@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  xssbot-chrome:
+    build:
+      context: ./context/
+      dockerfile: ../dockerfiles/Dockerfile.chrome
+    image: ${CONTAINER_PREFIX}/xssbot:chrome
+    ports:
+      - 8000:8000
+    privileged: true

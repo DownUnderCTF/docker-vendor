@@ -6,9 +6,13 @@ import logger from "./logger";
 type AuthHandler = (page: puppeteer.Page) => Promise<void>;
 
 function getHttpGetHandler(): AuthHandler {
+    if(!config.OUTBOUND_AUTH_HTTP_GET_URL) {
+        throw new Error('OUTBOUND_AUTH_HTTP_GET_URL must be set for http-get auth type');
+    }
+    const url = config.OUTBOUND_AUTH_HTTP_GET_URL;
     return async (page: puppeteer.Page) => {
         // Intentionally no timeout here
-        await page.goto(config.OUTBOUND_AUTH_HTTP_GET_URL, {
+        await page.goto(url, {
             waitUntil: "networkidle0",
         });
     };

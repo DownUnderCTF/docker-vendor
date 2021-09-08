@@ -18,7 +18,7 @@ export const OUTBOUND_AUTH_METHOD = process.env.OUTBOUND_AUTH_METHOD ?? "none";
 /** Path to the cookiejar file to use if the auth method is 'cookiejar' */
 export const OUTBOUND_AUTH_COOKIEJAR = process.env.OUTBOUND_AUTH_COOKIEJAR ?? "/var/marvin/auth/cookiejar";
 /** Path to GET if the auth method is http-get, defaults to /marvin */
-export const OUTBOUND_AUTH_HTTP_GET_URL = process.env.OUTBOUND_AUTH_HTTP_GET_URL ?? "/marvin";
+export const OUTBOUND_AUTH_HTTP_GET_URL = process.env.OUTBOUND_AUTH_HTTP_GET_URL;
 
 // Resources Limits
 /** If true allows each request to set its own timeout limits */
@@ -39,5 +39,5 @@ export const ALLOW_INTERNAL_ADDRESSES = process.env.ALLOW_INTERNAL_ADDRESS === "
 export const ALLOW_ALL_PROTOCOLS = process.env.ALLOW_ALL_PROTOCOLS === "unsafe-allow-all-protocols";
 
 // Misc
-/** Name of the service, used to make sure we don't loop requests back to ourselves. */
+/** Name of the service, lets authors do marvin specific _aesthetic only_ behaviour. */
 export const SERVICE_NAME = "ductf/marvin";

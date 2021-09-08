@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  marvin:
+    image: ghcr.io/downunderctf/docker-vendor/xssbot:chrome
+    privileged: true
+    environment:
+      NODE_ENVIRONMENT: development  # Remove me for prod
+      OUTBOUND_AUTH_METHOD: cookiejar
+    volumes:
+      - ./cookiejar:/var/marvin/auth/cookiejar
+  webapp:
+    build: .
+    ports:
+      - 8000:8000

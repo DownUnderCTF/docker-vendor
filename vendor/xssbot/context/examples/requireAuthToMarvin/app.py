@@ -10,7 +10,7 @@ def index():
 
 @app.route('/visitbad')
 def visitbad():
-    requests.post('http://marvin:8000/visit', json={
+    requests.post('http://marvin/visit', json={
         'url': 'http://webapp:8000/'
     }, headers={
         'x-ssrf-protection': '1'
@@ -19,7 +19,7 @@ def visitbad():
 
 @app.route('/visitgood')
 def visitgood():
-    requests.post('http://marvin:8000/visit', json={
+    requests.post('http://marvin/visit', json={
         'url': 'http://webapp:8000/'
     }, headers={
         'x-ssrf-protection': '1',

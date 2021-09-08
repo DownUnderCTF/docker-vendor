@@ -6,7 +6,7 @@ _A "performant enough" xss bot for use in CTF challenges._
 
 Marvin is desgined to run as a side-car to your challenge, so each author will need to use it in their individual challenges.
 
-Include the following in your `docker-compose.yml`. By default Marvin listens on port 8000, this can be configured with the `PORT` environmental variable. It may be helpful to expose this port for development.
+Include the following in your `docker-compose.yml`. By default Marvin listens on port 80, it may be worth forwarding a port here for development so you can make calls directly to marvin.
 
 ```yaml
 services:
@@ -17,7 +17,7 @@ services:
     environment:
      - NODE_ENVIRONMENT: development
     port:
-     - 8000:8000
+     - 8000:80
 ```
 
 You can then request Marvin visit pages by sending a POST request to `http://xssbot/visit` from within your dockerized challenge (or `http://localhost:8000/visit` if you are testing locally). The request needs to contain
@@ -41,11 +41,6 @@ requests.post('http://xssbot/visit', json={
 ### Configuration
 
 Marvin takes it's configuration through environmental variables. There are more variables than those documented below, please check out `config.ts` if you _really_ need to change something else.
-
-#### PORT
-_Default_: `8000`
-
-The port the webserver should listen on.
 
 #### OUTBOUND_AUTH_METHOD
 _Default_: `none`

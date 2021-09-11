@@ -15,8 +15,8 @@ services:
     privileged: true
     # Useful for development
     environment:
-     - NODE_ENVIRONMENT: development
-    port:
+     NODE_ENVIRONMENT: development
+    ports:
      - 8000:80
 ```
 
@@ -77,7 +77,7 @@ services:
 ```
 
 ##### Http-Get Auth
-If the auth method is `http-get`, Marvin will make one get request to a path set by `OUTBOUND_AUTH_HTTP_GET_URL` before visiting the request page, it is expected this page will provide some sort of cookie or state configuration.
+If the auth method is `http-get`, Marvin will make one get request to a path set by `OUTBOUND_AUTH_HTTP_GET_URL` before visiting the request page, it is expected this page will provide some sort of cookie or state configuration. _Note that if you issue a session cookie using this method you should route the auth request to the challenge's external address, this will make sure the cookie's domain is set appropriately.
 
 A setup may look like.
 ```yaml
@@ -88,7 +88,7 @@ services:
     image: ghcr.io/downunderctf/docker-vendor/xssbot:chrome
     environment:
       - OUTBOUND_AUTH_METHOD: http-get
-      - OUTBOUND_AUTH_HTTP_GET_URL: http://mychal/admin?token=abcd
+      - OUTBOUND_AUTH_HTTP_GET_URL: http://external.chal.address/admin?token=abcd
   ```
 
   ```python

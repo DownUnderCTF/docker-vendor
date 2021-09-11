@@ -33,6 +33,14 @@ async function browserRequestValidator(request: puppeteer.HTTPRequest) {
     await request.continue();
 }
 
+function pageConsoleLogger(msg: puppeteer.ConsoleMessage) {
+    logger.info({
+        type: msg.type(),
+        trace: msg.stackTrace().join("\n"),
+        console: msg.text()
+    }, 'console');
+}
+
 export default class BotVisitor {
     private browser: puppeteer.Browser;
 
@@ -63,9 +71,11 @@ export default class BotVisitor {
         await this.usingPageContext(async (page) => {
             await page.setCacheEnabled(false);
             await page.setRequestInterception(true);
-            await page.setExtraHTTPHeaders({ "X-Powered-By": config.SERVICE_NAME });
 
             page.on("request", browserRequestValidator);
+            if(process.env.NODE_ENVIRONMENT === "development") {
+                page.on("console", pageConsoleLogger);
+            }
             setTimeout(async () => safeClosePage(page), this.resourceLimits.timeouts.total);
 
             await visiter(page);

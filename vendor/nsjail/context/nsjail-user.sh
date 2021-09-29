@@ -5,6 +5,7 @@ CONFIG_FILE="/home/ctf/nsjail.cfg"
 CONFIG=`cat "$CONFIG_FILE"`
 
 # check and set default env vars
+export MODE=${MODE:-LISTEN}
 export MOUNT_PROC=${MOUNT_PROC:-false}
 export PORT=${PORT:-1337}
 export MAX_CONNS_PER_IP=${MAX_CONNS_PER_IP:-16}

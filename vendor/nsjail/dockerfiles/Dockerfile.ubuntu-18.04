@@ -36,7 +36,7 @@ RUN dpkg --add-architecture i386 \
 COPY --from=build /nsjail/nsjail /usr/bin/nsjail
 RUN useradd -r -m -u 1000 ctf
 
-COPY docker-entrypoint.sh nsjail-launcher.sh nsjail-user.sh /docker-init/
+COPY docker-entrypoint.sh nsjail-launcher.sh nsjail-user.sh nsjail-config-cgroups.sh /docker-init/
 RUN chmod +x /docker-init/*
 
 ENTRYPOINT ["/docker-init/docker-entrypoint.sh"]
@@ -45,4 +45,4 @@ CMD ["/docker-init/nsjail-launcher.sh"]
 # copy in example stuff
 COPY nsjail.cfg /home/ctf
 COPY chal /home/ctf/chal/
-
+COPY kctf /home/ctf/kctf/

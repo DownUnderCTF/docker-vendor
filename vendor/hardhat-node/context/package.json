@@ -1,0 +1,14 @@
+{
+  "name": "hardhat-node",
+  "version": "1.0.0",
+  "description": "Hardhat running node for DUCTF",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx hardhat node"
+  },
+  "author": "Blue Alder",
+  "license": "MIT",
+  "devDependencies": {
+    "hardhat": "^2.9.3"
+  }
+}

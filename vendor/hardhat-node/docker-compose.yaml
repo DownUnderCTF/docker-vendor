@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  hardhat-node:
+    build:
+      context: ./context/
+      dockerfile: ../dockerfiles/Dockerfile
+    image: ${CONTAINER_PREFIX}/hardhat-node:default

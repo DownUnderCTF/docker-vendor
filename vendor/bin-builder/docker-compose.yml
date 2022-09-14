@@ -9,13 +9,13 @@ services:
         UBUNTU_VERSION: '18.04'
     image: ${CONTAINER_PREFIX}/bin-builder:ubuntu-18.04
 
-  bin-builder-ubuntu-21.04:
+  bin-builder-ubuntu-22.04:
     build:
       context: ./context
       dockerfile: ../dockerfiles/Dockerfile.ubuntu
       args:
-        UBUNTU_VERSION: '21.04'
-    image: ${CONTAINER_PREFIX}/bin-builder:ubuntu-21.04
+        UBUNTU_VERSION: '22.04'
+    image: ${CONTAINER_PREFIX}/bin-builder:ubuntu-22.04
   
   bin-builder-debian-10:
     build:

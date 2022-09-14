@@ -1,4 +1,4 @@
-ARG UBUNTU_VERSION="21.04"
+ARG UBUNTU_VERSION="22.04"
 
 FROM ghcr.io/downunderctf/docker-vendor/bin-builder:ubuntu-$UBUNTU_VERSION as base
 

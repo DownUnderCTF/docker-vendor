@@ -12,6 +12,7 @@ At the end of your Dockerfile, expose the appropriate port using `EXPOSE port_nu
 Default options are listed below.
 
 ```sh
+JAIL_CWD=/		# default working directory of jail
 MOUNT_PROC=false        # Whether to mount proc in the child container
 PORT=1337               # Listening port
 MAX_CONNS_PER_IP=16      # Maximum number of connections per IP address. 0 is unlimited.

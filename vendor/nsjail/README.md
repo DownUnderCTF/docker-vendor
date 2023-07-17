@@ -20,6 +20,8 @@ MAX_MEMORY=67108864     # Maximum memory that processes can use.
 MAX_PIDS=16             # Maximum number of processes.
 TIME_LIMIT=60           # Timeout before connection is closed.
 CPU_SHARES_MS=50        # Maximum amount of CPU time permitted in milliseconds per second.
+TMP_ENABLED=0           # set to a 1 to enable tmp
+TMP_SIZE=5000000        # maximum size of tmp in bytes
 ```
 
 There is default configuration inside context/nsjail.cfg. Just replace the file using `COPY` when

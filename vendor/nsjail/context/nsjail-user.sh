@@ -15,6 +15,21 @@ export MAX_PIDS=${MAX_PIDS:-16}
 export TIME_LIMIT=${TIME_LIMIT:-60}
 export CPU_SHARES_MS=${CPU_SHARES_MS:-50} # 50 ms per second of cpu per competitor
 
+TMP_ENABLED=${TMP_ENABLED:-0}
+TMP_SIZE=${TMP_SIZE:-5000000}
+
+if [ $TMP_ENABLED -eq 1 ]; then
+	export TMP_PARAMS=$(cat <<-END
+, {
+    dst: "/tmp",
+    fstype: "tmpfs",
+    options: "size=$TMP_SIZE",
+    is_bind: false,
+    rw: true
+  }
+END
+)
+fi
 
 if [ -f "/sys/fs/cgroup/cgroup.controllers" ]; then
 	# we are using cgroupv2

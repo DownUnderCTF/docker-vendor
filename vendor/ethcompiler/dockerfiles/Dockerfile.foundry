@@ -1,0 +1,11 @@
+FROM ubuntu:jammy
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+  curl \
+  ca-certificates \
+  git
+
+RUN curl -L https://foundry.paradigm.xyz | bash && /root/.foundry/bin/foundryup
+RUN touch foundry.toml

@@ -3,6 +3,6 @@ version: '3'
 services:
   ethcompiler:
     build:
-      # context: ./context/
+      context: ./context/
       dockerfile: ../dockerfiles/Dockerfile.foundry
     image: ${CONTAINER_PREFIX}/ethcompiler:foundry

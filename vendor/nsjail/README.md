@@ -27,3 +27,5 @@ TMP_SIZE=5000000        # maximum size of tmp in bytes
 There is default configuration inside context/nsjail.cfg. Just replace the file using `COPY` when
 building your image if you need to change more than what is provided through the environment
 variables.
+
+The only environment variable that is passed into the nsjail environment is the `FLAG` ENV variable. If it is not set then it is ignored.

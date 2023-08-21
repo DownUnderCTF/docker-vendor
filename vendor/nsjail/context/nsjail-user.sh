@@ -39,4 +39,4 @@ if [ -f "/sys/fs/cgroup/cgroup.controllers" ]; then
 	fi
 fi
 
-nsjail --config <(echo "$CONFIG" | envsubst)
+nsjail --config <(echo "$CONFIG" | envsubst) --env FLAG

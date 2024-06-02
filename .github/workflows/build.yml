@@ -5,6 +5,7 @@ on:
       - master
     paths:
       - vendor/**
+  workflow_dispatch:
 env:
   REGISTRY: ghcr.io
   DOCKER_BUILDKIT: 1
@@ -40,6 +41,6 @@ jobs:
 
       - name: docker buildx build and push
         run: ./scripts/build-and-push-changed.sh
-      
+
       - name: move and delete old cache
         run: rm -rf /tmp/.buildx-cache && mv /tmp/.buildx-cache-new /tmp/.buildx-cache

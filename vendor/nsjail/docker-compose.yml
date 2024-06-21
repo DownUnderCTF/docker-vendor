@@ -1,21 +1,39 @@
 version: '3'
 
 services:
-  nsjail-ubuntu-18.04:
-    build:
-      context: ./context/
-      dockerfile: ../dockerfiles/Dockerfile.ubuntu-18.04
-    image: ${CONTAINER_PREFIX}/nsjail:ubuntu-18.04
-
   nsjail-ubuntu-22.04:
     build:
       context: ./context/
-      dockerfile: ../dockerfiles/Dockerfile.ubuntu-22.04
+      dockerfile: ../dockerfiles/Dockerfile.ubuntu
+      args:
+        UBUNTU_VERSION: '22.04'
+        LIBPROTOBUF_VERSION: 'libprotobuf23'
     image: ${CONTAINER_PREFIX}/nsjail:ubuntu-22.04
+
+  nsjail-ubuntu-24.04:
+    build:
+      context: ./context/
+      dockerfile: ../dockerfiles/Dockerfile.ubuntu
+      args:
+        UBUNTU_VERSION: '24.04'
+        LIBPROTOBUF_VERSION: 'libprotobuf32t64'
+    image: ${CONTAINER_PREFIX}/nsjail:ubuntu-24.04
 
   nsjail-debian-10:
     build:
       context: ./context/
-      dockerfile: ../dockerfiles/Dockerfile.debian-10
+      dockerfile: ../dockerfiles/Dockerfile.debian
+      args:
+        DEBIAN_VERSION: '10'
+        LIBPROTOBUF_VERSION: 'libprotobuf17'
     image: ${CONTAINER_PREFIX}/nsjail:debian-10
+
+  nsjail-debian-11:
+    build:
+      context: ./context/
+      dockerfile: ../dockerfiles/Dockerfile.debian
+      args:
+        DEBIAN_VERSION: '11'
+        LIBPROTOBUF_VERSION: 'libprotobuf23'
+    image: ${CONTAINER_PREFIX}/nsjail:debian-11
 

@@ -1,8 +1,11 @@
-ARG DEBIAN_VERSION=10
+ARG DEBIAN_VERSION
+ARG LIBPROTOBUF_VERSION
+
 
 FROM ghcr.io/downunderctf/docker-vendor/bin-builder:debian-$DEBIAN_VERSION as base
 
 FROM base as build
+ARG LIBPROTOBUF_VERSION
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -20,6 +23,7 @@ RUN apt-get update \
 RUN git clone https://github.com/google/nsjail.git /nsjail && cd /nsjail && make
 
 FROM debian:$DEBIAN_VERSION-slim as dist
+ARG LIBPROTOBUF_VERSION
 RUN dpkg --add-architecture i386 \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -28,14 +32,14 @@ RUN dpkg --add-architecture i386 \
      python3-venv \
      python3-gmpy2 \
      nano \
-     libprotobuf17 \
+     $LIBPROTOBUF_VERSION \
      libnl-route-3-200 \
      libc6:i386 \
      libstdc++6:i386 \
  && rm -rf /var/lib/apt/lists/*
 
 COPY --from=build /nsjail/nsjail /usr/bin/nsjail
-RUN useradd -r -m -u 1000 ctf
+RUN useradd -r -m ctf
 
 COPY docker-entrypoint.sh nsjail-launcher.sh nsjail-user.sh nsjail-config-cgroups.sh /docker-init/
 RUN chmod +x /docker-init/*

@@ -1,14 +1,6 @@
 version: '3'
 
 services:
-  bin-builder-ubuntu-18.04:
-    build:
-      context: ./context
-      dockerfile: ../dockerfiles/Dockerfile.ubuntu
-      args:
-        UBUNTU_VERSION: '18.04'
-    image: ${CONTAINER_PREFIX}/bin-builder:ubuntu-18.04
-
   bin-builder-ubuntu-22.04:
     build:
       context: ./context
@@ -16,6 +8,14 @@ services:
       args:
         UBUNTU_VERSION: '22.04'
     image: ${CONTAINER_PREFIX}/bin-builder:ubuntu-22.04
+
+  bin-builder-ubuntu-24.04:
+    build:
+      context: ./context
+      dockerfile: ../dockerfiles/Dockerfile.ubuntu
+      args:
+        UBUNTU_VERSION: '24.04'
+    image: ${CONTAINER_PREFIX}/bin-builder:ubuntu-24.04
   
   bin-builder-debian-10:
     build:
@@ -24,6 +24,14 @@ services:
       args:
         DEBIAN_VERSION: '10'
     image: ${CONTAINER_PREFIX}/bin-builder:debian-10
+
+  bin-builder-debian-11:
+    build:
+      context: ./context
+      dockerfile: ../dockerfiles/Dockerfile.debian
+      args:
+        DEBIAN_VERSION: '11'
+    image: ${CONTAINER_PREFIX}/bin-builder:debian-11
   
   # Don't know why you'd need this but I like completionism
   bin-builder-alpine:

@@ -16,15 +16,15 @@ function get_all_compose_files {
 function get_changed_projects {
     # Returns all changed projects (uses GITHUB_SHA)
     git diff --name-only "$GITHUB_SHA^1" "$GITHUB_SHA" | \
-        egrep "^$PROJECT_PREFIX" | \
-        cut -d'/' -f1-2 | \
+        grep -E "^$PROJECT_PREFIX" | \
+        cut -d'/' -f2 | \
         sort | uniq
 }
 
 function get_changed_compose_projects {
     # Returns compose files for all changed prs
     for project in `get_changed_projects`; do
-        if [ -f "$project/docker-compose.yml" ]; then
+        if [ -f "vendor/$project/docker-compose.yml" ]; then
 	        echo "$project"
 	    fi
     done

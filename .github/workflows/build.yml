@@ -6,6 +6,11 @@ on:
     paths:
       - vendor/**
   workflow_dispatch:
+    inputs:
+      projects:
+        required: true
+        description: A list of vendor projects (top level folder in vendors/) separated by spaces.
+        type: string
 env:
   REGISTRY: ghcr.io
   DOCKER_BUILDKIT: 1
@@ -32,5 +37,5 @@ jobs:
         uses: docker/setup-buildx-action@v1
 
       - name: docker buildx build and push
-        run: ./scripts/build-and-push-changed.sh
+        run: ./scripts/build-and-push.sh ${{ inputs.projects }}
 

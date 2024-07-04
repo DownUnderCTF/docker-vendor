@@ -2,13 +2,13 @@
     "name": "xssbot",
     "version": "1.0.0",
     "description": "XssBot for DUCTF",
-    "main": "src/index.ts",
+    "main": "main.ts",
     "author": "todo",
     "license": "MIT",
     "scripts": {
         "lint:check": "prettier -c ./xssbot && eslint -c ./xssbot/*",
         "lint": "prettier --write ./xssbot && eslint --fix ./xssbot/*",
-        "dev": "nodemon xssbot/main.ts"
+        "dev": "NODE_ENV=development tsx watch marvin/main.ts"
     },
     "devDependencies": {
         "@types/ajv": "^1.0.0",
@@ -26,8 +26,8 @@
         "eslint-config-airbnb-typescript": "^14.0.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-import": "^2.24.2",
-        "nodemon": "^2.0.12",
         "prettier": "^2.3.2",
+        "tsx": "^4.16.2",
         "typescript": "^4.4.2"
     },
     "dependencies": {

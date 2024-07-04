@@ -73,7 +73,7 @@ export default class BotVisitor {
             await page.setRequestInterception(true);
 
             page.on("request", browserRequestValidator);
-            if(process.env.NODE_ENVIRONMENT === "development") {
+            if(config.IS_LOCAL_DEV) {
                 page.on("console", pageConsoleLogger);
             }
             setTimeout(async () => safeClosePage(page), this.resourceLimits.timeouts.total);

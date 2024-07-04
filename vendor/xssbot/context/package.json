@@ -8,7 +8,7 @@
     "scripts": {
         "lint:check": "prettier -c ./xssbot && eslint -c ./xssbot/*",
         "lint": "prettier --write ./xssbot && eslint --fix ./xssbot/*",
-        "dev": "NODE_ENV=development tsx watch marvin/main.ts"
+        "dev": "NODE_ENVIRONMENT=development tsx watch marvin/main.ts"
     },
     "devDependencies": {
         "@types/ajv": "^1.0.0",

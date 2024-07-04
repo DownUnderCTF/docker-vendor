@@ -5,6 +5,8 @@ export const PORT = +(process.env.PORT ?? 8000);
 export const BROWSER_EXECUTABLE = process.env.BROWSER_EXECUTABLE ?? "/usr/bin/google-chrome-stable";
 /** The redis host for managing tasks, defaults to localhost */
 export const REDIS_HOST = process.env.REDIS_HOST ?? "localhost";
+/** Flag for enabling local dev only behavior */
+export const IS_LOCAL_DEV = process.env.NODE_ENVIRONMENT === "development";
 
 // Ops
 /** Healthcheck url, defaults to /healthz. Disable if set to 'DISABLE' */

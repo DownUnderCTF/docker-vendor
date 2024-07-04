@@ -80,13 +80,13 @@ router.post("/visit", async (ctx) => {
     const validator = getVisitRequestValidator();
     if (!validator(req)) {
         ctx.status = 400;
-        ctx.body = process.env.NODE_ENV === "development" ? validator.errors : "invalid request";
+        ctx.body = config.IS_LOCAL_DEV ? validator.errors : "invalid request";
         return;
     }
     if (!config.PER_REQ_LIMITS && req.resourceLimits) {
         ctx.status = 400;
         ctx.body =
-            process.env.NODE_ENV === "development"
+            config.IS_LOCAL_DEV
                 ? "found timeout field when PER_REQ_LIMITS was not set"
                 : "invalid request";
         return;

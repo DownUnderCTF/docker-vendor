@@ -6,8 +6,8 @@
     "author": "todo",
     "license": "MIT",
     "scripts": {
-        "lint:check": "prettier -c ./xssbot && eslint -c ./xssbot/*",
-        "lint": "prettier --write ./xssbot && eslint --fix ./xssbot/*",
+        "lint:check": "prettier -c ./marvin && eslint -c ./marvin/*",
+        "lint": "prettier --write ./marvin && eslint --fix ./marvin/*",
         "dev": "NODE_ENVIRONMENT=development tsx watch marvin/main.ts"
     },
     "devDependencies": {

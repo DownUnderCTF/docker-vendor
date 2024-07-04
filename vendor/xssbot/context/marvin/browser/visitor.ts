@@ -1,7 +1,7 @@
 import puppeteer from "puppeteer";
 import { VisitResourceLimits } from "../types";
 import * as config from "../config";
-import checkRequest from "../security/browser";
+import { checkBrowserRequest, precheckBrowserNavigation } from "../security/browser";
 import applyAuth from "./auth";
 import logger from "./logger";
 
@@ -19,7 +19,7 @@ async function safeClosePage(page: puppeteer.Page) {
 
 async function browserRequestValidator(request: puppeteer.HTTPRequest) {
     logger.info(`Intercepted ${request.method()} ${request.url()}`);
-    const [status, errMsg] = await checkRequest(request);
+    const [status, errMsg] = await checkBrowserRequest(request);
     if (!status) {
         logger.info(
             {
@@ -36,7 +36,7 @@ async function browserRequestValidator(request: puppeteer.HTTPRequest) {
 function pageConsoleLogger(msg: puppeteer.ConsoleMessage) {
     logger.info({
         type: msg.type(),
-        trace: msg.stackTrace().join("\n"),
+        trace: msg.stackTrace().map(trace => `${trace.url || "unknown"} (${trace.lineNumber}:${trace.columnNumber})`).join("\n"),
         console: msg.text()
     }, 'console');
 }
@@ -83,6 +83,14 @@ export default class BotVisitor {
     }
 
     public async visit(url: string) {
+        logger.info({ url }, "received navigation intent");
+
+        const [shouldNavigate, message] = await precheckBrowserNavigation({ url });
+        if(!shouldNavigate) {
+            logger.info(`navigation intent precheck failed with: ${message}. refusing navigation`);
+            return;
+        }
+
         this.safeVisit(async (page) => {
             await applyAuth(page);
             await page.goto(url, {

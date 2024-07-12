@@ -8,6 +8,8 @@ CONFIG=`cat "$CONFIG_FILE"`
 export MODE=${MODE:-LISTEN}
 export MOUNT_PROC=${MOUNT_PROC:-false}
 export PORT=${PORT:-1337}
+export EXEC_BIN=${EXEC_BIN:-/chal/pwn}
+export EXEC_ARG=${EXEC_ARG:-}
 export JAIL_CWD=${JAIL_CWD:-/}
 export MAX_CONNS_PER_IP=${MAX_CONNS_PER_IP:-16}
 export MAX_MEMORY=${MAX_MEMORY:-67108864} # 64MB
@@ -40,3 +42,4 @@ if [ -f "/sys/fs/cgroup/cgroup.controllers" ]; then
 fi
 
 nsjail --config <(echo "$CONFIG" | envsubst) --env FLAG
+

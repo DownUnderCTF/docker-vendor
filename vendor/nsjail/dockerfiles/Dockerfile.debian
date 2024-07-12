@@ -2,7 +2,7 @@ ARG DEBIAN_VERSION
 ARG LIBPROTOBUF_VERSION
 
 
-FROM ghcr.io/downunderctf/docker-vendor/bin-builder:debian-$DEBIAN_VERSION as base
+FROM ghcr.io/downunderctf/docker-vendor/bin-builder:debian-$DEBIAN_VERSION AS base
 
 FROM base as build
 ARG LIBPROTOBUF_VERSION
@@ -22,7 +22,7 @@ RUN apt-get update \
 # hadolint ignore=DL3003,DL3059
 RUN git clone https://github.com/google/nsjail.git /nsjail && cd /nsjail && make
 
-FROM debian:$DEBIAN_VERSION-slim as dist
+FROM debian:$DEBIAN_VERSION-slim AS dist
 ARG LIBPROTOBUF_VERSION
 RUN dpkg --add-architecture i386 \
  && apt-get update \

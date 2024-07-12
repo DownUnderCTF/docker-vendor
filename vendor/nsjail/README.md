@@ -15,7 +15,9 @@ Default options are listed below.
 JAIL_CWD=/		# default working directory of jail
 MOUNT_PROC=false        # Whether to mount proc in the child container
 PORT=1337               # Listening port
-MAX_CONNS_PER_IP=16      # Maximum number of connections per IP address. 0 is unlimited.
+EXEC_BIN=/chal/pwn      # Program to execute 
+EXEC_ARG=               # Arguments to supply to program
+MAX_CONNS_PER_IP=16     # Maximum number of connections per IP address. 0 is unlimited.
 MAX_MEMORY=67108864     # Maximum memory that processes can use.
 MAX_PIDS=16             # Maximum number of processes.
 TIME_LIMIT=60           # Timeout before connection is closed.

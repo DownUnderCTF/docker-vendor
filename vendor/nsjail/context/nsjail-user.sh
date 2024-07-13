@@ -2,7 +2,7 @@
 
 # idempotency ftw
 CONFIG_FILE="/home/ctf/nsjail.cfg"
-CONFIG=`cat "$CONFIG_FILE"`
+export CONFIG=`cat "$CONFIG_FILE"`
 
 # check and set default env vars
 export MODE=${MODE:-LISTEN}
@@ -29,6 +29,7 @@ if [ $TMP_ENABLED -eq 1 ]; then
     is_bind: false,
     rw: true
   }
+
 END
 )
 fi
@@ -41,5 +42,9 @@ if [ -f "/sys/fs/cgroup/cgroup.controllers" ]; then
 	fi
 fi
 
-nsjail --config <(echo "$CONFIG" | envsubst) --env FLAG
+if [ "$MODE" == "LISTEN_INJECT_FLAG" ]; then
+	socat tcp-listen:$PORT,reuseaddr,fork "exec:/docker-init/inject-flag.sh"
+else
+	nsjail --config <(echo "$CONFIG" | envsubst) --env FLAG
+fi
 

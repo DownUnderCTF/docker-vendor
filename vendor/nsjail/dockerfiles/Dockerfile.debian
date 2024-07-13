@@ -32,6 +32,7 @@ RUN dpkg --add-architecture i386 \
      python3-venv \
      python3-gmpy2 \
      nano \
+     socat \
      $LIBPROTOBUF_VERSION \
      libnl-route-3-200 \
      libc6:i386 \
@@ -41,7 +42,7 @@ RUN dpkg --add-architecture i386 \
 COPY --from=build /nsjail/nsjail /usr/bin/nsjail
 RUN useradd -r -m ctf
 
-COPY docker-entrypoint.sh nsjail-launcher.sh nsjail-user.sh nsjail-config-cgroups.sh /docker-init/
+COPY docker-entrypoint.sh nsjail-launcher.sh nsjail-user.sh nsjail-config-cgroups.sh inject-flag.sh /docker-init/
 RUN chmod +x /docker-init/*
 
 ENTRYPOINT ["/docker-init/docker-entrypoint.sh"]

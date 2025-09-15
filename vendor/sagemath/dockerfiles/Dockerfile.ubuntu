@@ -1,0 +1,6 @@
+ARG UBUNTU_VERSION
+
+FROM ghcr.io/downunderctf/docker-vendor/nsjail:ubuntu-$UBUNTU_VERSION AS base
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+    apt-get install --no-install-recommends -y sagemath && \
+    rm -rf /var/lib/apt/lists/*

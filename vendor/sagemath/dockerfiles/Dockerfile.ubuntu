@@ -1,0 +1,8 @@
+ARG UBUNTU_VERSION
+
+FROM ghcr.io/downunderctf/docker-vendor/nsjail:ubuntu-$UBUNTU_VERSION AS base
+ARG DEBIAN_FRONTEND=noninteractive
+ARG TZ=Etc/UTC
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y sagemath && \
+    rm -rf /var/lib/apt/lists/*

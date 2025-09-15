@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  sagemath-ubuntu-22.04:
+    build:
+      dockerfile: ./dockerfiles/Dockerfile.ubuntu
+      args:
+        UBUNTU_VERSION: '22.04'
+    image: ${CONTAINER_PREFIX}/sagemath:ubuntu-22.04

@@ -163,7 +163,7 @@ requests.post('...', json=..., headers={
 })
 ```
 
-#### ALLOW_INTERNAL_ADDRESSES
+#### ALLOW_INTERNAL_ADDRESS
 _Default_: `false`
 
 Allows request to be made to loopback and link-local addresses, typically this is not allowed. Private addresses are not effected by this.

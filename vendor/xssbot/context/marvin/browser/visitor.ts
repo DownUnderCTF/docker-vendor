@@ -91,7 +91,7 @@ export default class BotVisitor {
             return;
         }
 
-        this.safeVisit(async (page) => {
+        await this.safeVisit(async (page) => {
             await applyAuth(page);
             await page.goto(url, {
                 waitUntil: "networkidle0",

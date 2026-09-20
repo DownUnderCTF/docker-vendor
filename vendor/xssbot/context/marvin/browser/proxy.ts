@@ -128,6 +128,8 @@ export function parseProxyConfig(authHeader?: string): ProxyConfig {
             parsed.hosts = canonicalHosts;
         }
 
+        parsed.allowInternet = parsed.allowInternet ?? true;
+
         return parsed;
     } catch {
         return defaultProxyConfig;

@@ -30,6 +30,7 @@ export class BotBrowser {
                 "--no-sandbox",
                 "--disable-dev-shm-usage",
                 `--proxy-server=http://${config.PROXY_HOST}:${config.PROXY_PORT}`,
+                "--proxy-bypass-list=<-loopback>",
             ],
         });
         logger.info(`Initiated browser using ${this.opts.browser.executablePath}`);

@@ -52,13 +52,17 @@ export default class BotVisitor {
     }
 
     private async usingPageContext(visitor: PageVisitor, proxyConfig?: ProxyConfig) {
-        const context = await this.browser.createIncognitoBrowserContext();
+        const context = await this.browser.createIncognitoBrowserContext({
+            proxyServer: `http://${config.PROXY_HOST}:${config.PROXY_PORT}`,
+        });
         try {
             const page = await context.newPage();
-            if (proxyConfig) {
-                const token = Buffer.from(JSON.stringify(proxyConfig)).toString("base64");
-                await page.authenticate({ username: "bot", password: token });
-            }
+            const effectiveProxyConfig: ProxyConfig = {
+                hosts: proxyConfig?.hosts ?? {},
+                allowInternet: proxyConfig?.allowInternet ?? true,
+            };
+            const token = Buffer.from(JSON.stringify(effectiveProxyConfig)).toString("base64");
+            await page.authenticate({ username: "bot", password: token });
             try {
                 await visitor(page);
             } catch (e) {
@@ -88,7 +92,7 @@ export default class BotVisitor {
     }
 
     public async visit(url: string, proxyConfig?: ProxyConfig) {
-        logger.info({ url }, "received navigation intent");
+        logger.info({ url, proxy: proxyConfig }, "received navigation intent");
 
         const [shouldNavigate, message] = await precheckBrowserNavigation({ url });
         if (!shouldNavigate) {

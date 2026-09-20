@@ -33,7 +33,10 @@ describe("Proxy E2E with Chromium", () => {
     console.log("[PASS] Chromium launched with --proxy-server");
 
     try {
-        const page = await browser.newPage();
+        const context = await browser.createIncognitoBrowserContext({
+            proxyServer: `http://127.0.0.1:${proxyPort}`,
+        });
+        const page = await context.newPage();
 
         // Configure proxy credentials for this page
         const proxyConfig: ProxyConfig = {

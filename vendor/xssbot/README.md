@@ -179,9 +179,56 @@ _Default_: `ductf/marvin`
 
 This will be the value of the `X-Powered-By` header sent with every request. Authors may use this header to make _aesthetic_ changes to their challenges if the request comes from Marvin. **This header is not secure and should not be trusted**.
 
+#### BLOCKED_IP_RANGES
+_Default_: `""` (empty)
+_Example_: `198.18.0.0/15,192.0.2.0/24,203.0.113.0/24`
+
+Comma-separated CIDR subnets or IP addresses to block on the `allowInternet` path in addition to default RFC 1918 private subnets, loopback (`127.0.0.0/8`), link-local/cloud metadata (`169.254.0.0/16`), and CGNAT (`100.64.0.0/10`).
+
+### Forward Proxy & Destination Isolation (`proxy`)
+
+Marvin runs an internal forward proxy process that intercepts all Chromium HTTP and HTTPS traffic. This protects against SSRF, cloud metadata access, and DNS rebinding attacks while allowing seamless challenge host routing.
+
+You can configure per-visit proxy behavior by supplying the optional `proxy` field in your visit request:
+
+```python
+requests.post('http://xssbot/visit', json={
+  'url': 'http://challenge.local/',
+  'proxy': {
+    'hosts': {
+      'challenge.local': 'web'  # or '127.0.0.1'
+    },
+    'allowInternet': False
+  }
+}, headers={
+  'X-SSRF-Protection': '1'
+})
+```
+
+#### `proxy.hosts`
+_Type_: `dict[str, str | null]`  
+_Default_: `{}`
+
+A map of virtual hostnames to internal destination hostnames or IPs (e.g. `{"challenge.local": "127.0.0.1"}` or `{"mychal.ctf": "web-container"}`).
+- Acts like an internal `/etc/hosts` DNS table for the browser.
+- The original `Host` header is preserved (e.g. the upstream server receives `Host: challenge.local`).
+- Connections to hosts defined here **bypass** SSRF blocklists, allowing you to route traffic to internal Docker services or loopback safely.
+- Hostnames are automatically canonicalized (case-insensitive, trailing FQDN root dots stripped).
+
+#### `proxy.allowInternet`
+_Type_: `bool`  
+_Default_: `True`
+
+Controls external network access:
+- **`True` (Default, Backwards-Compatible)**: Outbound public internet requests are allowed (e.g. CDN scripts, fonts, attacker webhooks), but requests to internal/private IP ranges (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `127.0.0.0/8`, `169.254.169.254`, IPv6 `::1`/`fc00::`, etc.) and DNS rebinding attacks to private IPs are blocked with `403 Forbidden`.
+- **`False` (Strict Zero-Egress)**: All external internet access is disabled. The browser can **only** connect to hosts explicitly listed in `proxy.hosts`. Any unlisted host is immediately rejected with `403 Forbidden`.
+
+---
+
 ## Gotchas
 
  - Don't name your service `app` if you are going to visit it through the internal network. Chrome incorrectly attempts to send https traffic to the service.
+ - `.dev` domains are on Chrome's HSTS preload list and will force HTTPS. Use `.test`, `.ctf`, or `.local` for internal challenge domains.
 
 ## Credits
 

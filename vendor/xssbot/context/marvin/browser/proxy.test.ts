@@ -198,7 +198,7 @@ describe("Proxy Server Integration", () => {
     it("should forward HTTP requests to remapped destination preserving Host header", async () => {
         const config: ProxyConfig = {
             hosts: {
-                "ctf.challenge": "127.0.0.1:9995",
+                "ctf.challenge": "127.0.0.1",
             },
             allowInternet: false,
         };
@@ -209,7 +209,7 @@ describe("Proxy Server Integration", () => {
                     host: "127.0.0.1",
                     port: proxyPort,
                     method: "GET",
-                    path: "http://ctf.challenge/secret-path",
+                    path: "http://ctf.challenge:9995/secret-path",
                     headers: {
                         "Proxy-Authorization": makeAuthHeader(config),
                     },
@@ -227,7 +227,7 @@ describe("Proxy Server Integration", () => {
         expect(res.status).toBe(200);
         const json = JSON.parse(res.body);
         expect(json.ok).toBe(true);
-        expect(json.host).toBe("ctf.challenge");
+        expect(json.host).toBe("ctf.challenge:9995");
         expect(json.url).toBe("/secret-path");
     });
 

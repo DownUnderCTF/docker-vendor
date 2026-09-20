@@ -39,19 +39,19 @@ async function runE2E() {
         // Configure proxy credentials for this page
         const proxyConfig: ProxyConfig = {
             hosts: {
-                "super-chal.ductf.ctf": "127.0.0.1:9998",
+                "super-chal.ductf.ctf": "127.0.0.1",
             },
             allowInternet: false,
         };
         const token = Buffer.from(JSON.stringify(proxyConfig)).toString("base64");
         await page.authenticate({ username: "bot", password: token });
 
-        console.log("Navigating to http://super-chal.ductf.ctf/ via proxy...");
-        await page.goto("http://super-chal.ductf.ctf/", { waitUntil: "networkidle0" });
+        console.log("Navigating to http://super-chal.ductf.ctf:9998/ via proxy...");
+        await page.goto("http://super-chal.ductf.ctf:9998/", { waitUntil: "networkidle0" });
 
         const content = await page.content();
         assert.ok(content.includes("PUPPETEER_SUCCESS"), "Expected page to include PUPPETEER_SUCCESS");
-        assert.ok(content.includes("Host: super-chal.ductf.ctf"), "Expected Host header to be preserved as super-chal.ductf.ctf");
+        assert.ok(content.includes("Host: super-chal.ductf.ctf:9998"), "Expected Host header to be preserved as super-chal.ductf.ctf:9998");
         console.log("[PASS] Page loaded successfully with remapped host and intact Host header!");
 
         // Test blocking: attempt to navigate to disallowed host

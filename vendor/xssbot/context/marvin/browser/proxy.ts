@@ -174,18 +174,6 @@ export async function resolveAndCheckDestination(
     }
 }
 
-function splitHostAndPort(target: string, defaultPort: number): { host: string; port: number } {
-    if (target.includes(":")) {
-        const lastColon = target.lastIndexOf(":");
-        const host = target.slice(0, lastColon);
-        const port = Number(target.slice(lastColon + 1));
-        if (!Number.isNaN(port) && port > 0) {
-            return { host, port };
-        }
-    }
-    return { host: target, port: defaultPort };
-}
-
 export async function handleConnect(
     req: http.IncomingMessage,
     clientSocket: net.Socket,
@@ -209,9 +197,7 @@ export async function handleConnect(
         return;
     }
 
-    const { host: destHost, port: destPort } = splitHostAndPort(targetIpOrHost, targetPort);
-
-    const serverSocket = net.connect(destPort, destHost, () => {
+    const serverSocket = net.connect(targetPort, targetIpOrHost, () => {
         clientSocket.write("HTTP/1.1 200 Connection Established\r\n\r\n");
         if (head && head.length > 0) {
             serverSocket.write(head);
@@ -274,12 +260,10 @@ export async function handleHttpRequest(
         // Strip proxy-authorization before forwarding
         delete req.headers["proxy-authorization"];
 
-        const { host: destHost, port: destPort } = splitHostAndPort(targetIpOrHost, targetPort);
-
         const proxyReq = http.request(
             {
-                host: destHost,
-                port: destPort,
+                host: targetIpOrHost,
+                port: targetPort,
                 method: req.method,
                 path: parsedUrl.pathname + parsedUrl.search,
                 headers: {

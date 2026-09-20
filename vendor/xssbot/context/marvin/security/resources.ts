@@ -12,6 +12,9 @@ export function resolveResourceLimits(limitRequest: RecursivePartial<VisitResour
     // SEC: There's possible a proto pollution here but I'm too brain dead to think about it
     // TODO: not this
     return {
-        timeouts: Object.assign(limitRequest.timeouts, defaultResourceLimits.timeouts),
+        timeouts: {
+            total: limitRequest.timeouts?.total ?? defaultResourceLimits.timeouts.total,
+            networkIdle: limitRequest.timeouts?.networkIdle ?? defaultResourceLimits.timeouts.networkIdle,
+        },
     };
 }

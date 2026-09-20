@@ -1,7 +1,7 @@
-import { Context } from "koa";
+import { ParameterizedContext } from "koa";
 import * as config from "../config";
 
-export function requireBearerToken(ctx: Context, expectedToken: string): boolean {
+export function requireBearerToken(ctx: ParameterizedContext<any, any>, expectedToken: string): boolean {
     const bearer = ctx.headers.authorization?.split(" ")[1];
     if (bearer === undefined) {
         ctx.body = "";
@@ -19,7 +19,7 @@ export function requireBearerToken(ctx: Context, expectedToken: string): boolean
     return true;
 }
 
-export function requireSSRFProtection(ctx: Context) {
+export function requireSSRFProtection(ctx: ParameterizedContext<any, any>) {
     if (!("x-ssrf-protection" in ctx.headers)) {
         ctx.body = "";
         ctx.status = 403;
@@ -28,7 +28,7 @@ export function requireSSRFProtection(ctx: Context) {
     return true;
 }
 
-export function noLoopBack(ctx: Context) {
+export function noLoopBack(ctx: ParameterizedContext<any, any>) {
     if (ctx.get("X-Powered-By") === config.SERVICE_NAME) {
         ctx.body = "";
         ctx.status = 403;

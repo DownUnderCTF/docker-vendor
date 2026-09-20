@@ -3,6 +3,7 @@ import bunyan from "bunyan";
 import { browser } from "./browser/browser";
 import * as config from "./config";
 import { VisitRequest } from "./types";
+import { resolveResourceLimits } from "./security/resources";
 
 const logger = bunyan.createLogger({ name: "VisitTask" });
 
@@ -14,6 +15,7 @@ const visitQueue = new BeeQueue("xssbot-visit", {
     storeJobs: false,
     removeOnSuccess: true,
     removeOnFailure: true,
+    isWorker: true,
 });
 const localQueueStats = {
     succeeded: 0,
@@ -26,6 +28,7 @@ visitQueue.on("ready", () => {
 visitQueue.on("error", (err) => {
     logger.error(`A queue error occurred: ${err}`);
 });
+
 visitQueue.on("succeeded", (job) => {
     localQueueStats.succeeded += 1;
     logger.info(`Job ${job.id} succeeded`);
@@ -37,7 +40,8 @@ visitQueue.on("failed", (job, err) => {
 
 visitQueue.process(async (job) => {
     const req: VisitRequest = job.data;
-    const visitor = browser.getVisitor(req.resourceLimits);
+    const resourceLimits = req.resourceLimits ? resolveResourceLimits(req.resourceLimits) : undefined;
+    const visitor = browser.getVisitor(resourceLimits);
     await visitor.visit(req.url, req.proxy);
 });
 

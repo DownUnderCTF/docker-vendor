@@ -7,6 +7,7 @@
     "license": "MIT",
     "scripts": {
         "test": "vitest run",
+        "test:e2e": "vitest run -c vitest.e2e.config.mts",
         "lint:check": "prettier -c ./marvin && eslint -c ./marvin/*",
         "lint": "prettier --write ./marvin && eslint --fix ./marvin/*",
         "dev": "NODE_ENVIRONMENT=development tsx watch marvin/main.ts"

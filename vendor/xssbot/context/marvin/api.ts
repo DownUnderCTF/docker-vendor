@@ -95,6 +95,7 @@ router.post("/visit", async (ctx) => {
     await submitVisitRequest({
         url: <string>req.url,
         ...(req.resourceLimits ? { resourceLimits: resolveResourceLimits(req.resourceLimits) } : {}),
+        ...(req.proxy ? { proxy: req.proxy } : {}),
     });
 
     ctx.status = 202;

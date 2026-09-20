@@ -5,6 +5,10 @@ export const PORT = +(process.env.PORT ?? 8000);
 export const BROWSER_EXECUTABLE = process.env.BROWSER_EXECUTABLE ?? "/usr/bin/google-chrome-stable";
 /** The redis host for managing tasks, defaults to localhost */
 export const REDIS_HOST = process.env.REDIS_HOST ?? "localhost";
+/** Port for the internal forward proxy, defaults to 8888 */
+export const PROXY_PORT = +(process.env.PROXY_PORT ?? 8888);
+/** Host for the internal forward proxy, defaults to 127.0.0.1 */
+export const PROXY_HOST = process.env.PROXY_HOST ?? "127.0.0.1";
 /** Flag for enabling local dev only behavior */
 export const IS_LOCAL_DEV = process.env.NODE_ENVIRONMENT === "development";
 
@@ -39,6 +43,8 @@ export const INBOUND_BEARER = process.env.INBOUND_BEARER ?? null;
 export const ALLOW_INTERNAL_ADDRESSES = process.env.ALLOW_INTERNAL_ADDRESS === "unsafe-allow-all-internal-addresses";
 /** Flag that allows requests to additional protocols. */
 export const ALLOW_ALL_PROTOCOLS = process.env.ALLOW_ALL_PROTOCOLS === "unsafe-allow-all-protocols";
+/** Comma-separated list of CIDR IP ranges blocked from internet access, e.g. "100.64.0.0/10,198.51.100.0/24" */
+export const BLOCKED_IP_RANGES = process.env.BLOCKED_IP_RANGES ?? "";
 
 // Misc
 /** Name of the service, lets authors do marvin specific _aesthetic only_ behaviour. */

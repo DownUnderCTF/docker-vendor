@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import { VisitResourceLimits } from "../types";
+import { VisitResourceLimits, ProxyConfig } from "../types";
 import * as config from "../config";
 import { checkBrowserRequest, precheckBrowserNavigation } from "../security/browser";
 import applyAuth from "./auth";
@@ -51,10 +51,14 @@ export default class BotVisitor {
         this.resourceLimits = resourceLimits;
     }
 
-    private async usingPageContext(visitor: PageVisitor) {
+    private async usingPageContext(visitor: PageVisitor, proxyConfig?: ProxyConfig) {
         const context = await this.browser.createIncognitoBrowserContext();
         try {
             const page = await context.newPage();
+            if (proxyConfig) {
+                const token = Buffer.from(JSON.stringify(proxyConfig)).toString("base64");
+                await page.authenticate({ username: "bot", password: token });
+            }
             try {
                 await visitor(page);
             } catch (e) {
@@ -67,26 +71,27 @@ export default class BotVisitor {
         }
     }
 
-    private async safeVisit(visiter: PageVisitor) {
+    private async safeVisit(visiter: PageVisitor, proxyConfig?: ProxyConfig) {
         await this.usingPageContext(async (page) => {
             await page.setCacheEnabled(false);
-            await page.setRequestInterception(true);
-
-            page.on("request", browserRequestValidator);
-            if(config.IS_LOCAL_DEV) {
+            if (!proxyConfig) {
+                await page.setRequestInterception(true);
+                page.on("request", browserRequestValidator);
+            }
+            if (config.IS_LOCAL_DEV) {
                 page.on("console", pageConsoleLogger);
             }
             setTimeout(async () => safeClosePage(page), this.resourceLimits.timeouts.total);
 
             await visiter(page);
-        });
+        }, proxyConfig);
     }
 
-    public async visit(url: string) {
+    public async visit(url: string, proxyConfig?: ProxyConfig) {
         logger.info({ url }, "received navigation intent");
 
         const [shouldNavigate, message] = await precheckBrowserNavigation({ url });
-        if(!shouldNavigate) {
+        if (!shouldNavigate) {
             logger.info(`navigation intent precheck failed with: ${message}. refusing navigation`);
             return;
         }
@@ -97,6 +102,6 @@ export default class BotVisitor {
                 waitUntil: "networkidle0",
                 timeout: this.resourceLimits.timeouts.networkIdle,
             });
-        });
+        }, proxyConfig);
     }
 }

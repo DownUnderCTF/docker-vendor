@@ -8,6 +8,22 @@ const VisitRequestSchema = {
         url: { type: "string" },
     },
     optionalProperties: {
+        proxy: {
+            optionalProperties: {
+                hosts: { values: { type: "string", nullable: true } },
+                allowInternet: { type: "boolean" },
+            },
+        },
+        resourceLimits: {
+            optionalProperties: {
+                timeouts: {
+                    optionalProperties: {
+                        total: { type: "int32" },
+                        networkIdle: { type: "int32" },
+                    },
+                },
+            },
+        },
         resouceLimits: {
             optionalProperties: {
                 timeouts: {

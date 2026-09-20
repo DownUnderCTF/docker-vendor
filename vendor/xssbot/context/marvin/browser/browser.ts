@@ -26,6 +26,11 @@ export class BotBrowser {
         this.browser = await puppeteer.launch({
             headless: true,
             executablePath: this.opts.browser.executablePath,
+            args: [
+                "--no-sandbox",
+                "--disable-dev-shm-usage",
+                `--proxy-server=http://${config.PROXY_HOST}:${config.PROXY_PORT}`,
+            ],
         });
         logger.info(`Initiated browser using ${this.opts.browser.executablePath}`);
     }

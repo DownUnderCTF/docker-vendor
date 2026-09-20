@@ -37,8 +37,8 @@ visitQueue.on("failed", (job, err) => {
 
 visitQueue.process(async (job) => {
     const req: VisitRequest = job.data;
-    const visitor = browser.getVisitor();
-    await visitor.visit(req.url);
+    const visitor = browser.getVisitor(req.resourceLimits);
+    await visitor.visit(req.url, req.proxy);
 });
 
 export function submitVisitRequest(req: VisitRequest) {
